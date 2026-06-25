@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORB 麻醉工作室 交班手冊</title>
+<style>
+  :root{
+    --bg:#f4f5f8;
+    --panel:#ffffff;
+    --ink:#2c2b30;
+    --muted:#6c6b75;
+    --line:#e5e3ec;
+    --accent:#095ca8;
+    --accent-deep:#084c89;
+    --accent-soft:#e7f0fa;
+    --lav:#d8cfe5;          /* 次要：淡紫 */
+    --taupe:#8f86b3;        /* 淡紫（文字用，較深可讀） */
+    --taupe-soft:#f1ecf7;
+    --lav-deep:#5d4d86;
+    --hl:#fffbc8;           /* 重點：淡黃 */
+    --hl-line:#ece08a;
+    --sidebar:#095ca8;
+    --sidebar-ink:#cfe0f2;
+    --sidebar-active:#fffbc8;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.7;
+    font-size:15px;
+  }
+  /* layout */
+  .wrap{display:flex;min-height:100vh;}
+  .sidebar{
+    width:248px;flex:0 0 248px;
+    background:var(--sidebar);
+    color:var(--sidebar-ink);
+    position:sticky;top:0;height:100vh;overflow-y:auto;
+    padding:20px 0;
+  }
+  .sidebar h1{
+    font-size:16px;color:#fff;margin:0 20px 4px;letter-spacing:.5px;
+  }
+  .sidebar .sub{font-size:12px;color:#a9c4e3;margin:0 20px 16px;}
+  .nav a{
+    display:block;padding:8px 20px;color:var(--sidebar-ink);
+    text-decoration:none;font-size:13.5px;border-left:3px solid transparent;
+  }
+  .nav a:hover{background:rgba(255,255,255,.06);color:#fff;}
+  .nav a.active{background:rgba(255,255,255,.16);border-left-color:var(--sidebar-active);color:#fff;}
+  .nav .group{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8fb4dd;padding:14px 20px 4px;}
+
+  .main{flex:1;min-width:0;padding:28px 40px 80px;max-width:1100px;}
+  .topbar{display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap;}
+  .search{
+    flex:1;min-width:220px;padding:10px 14px;border:1px solid var(--line);
+    border-radius:8px;font-size:14px;background:#fff;
+  }
+  .search:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+  .menu-btn{display:none;}
+
+  section{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:24px 28px;margin-bottom:22px;scroll-margin-top:16px;
+  }
+  section > h2{
+    margin:0 0 4px;font-size:20px;color:var(--ink);
+    display:flex;align-items:center;gap:10px;
+  }
+  section > h2 .tag{font-size:11px;font-weight:600;color:var(--accent-deep);background:var(--accent-soft);padding:2px 9px;border-radius:20px;}
+  .lead{color:var(--muted);margin:0 0 18px;font-size:14px;}
+  h3{font-size:15.5px;margin:20px 0 8px;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:6px;}
+  h4{font-size:14px;margin:14px 0 6px;color:var(--accent-deep);}
+  p{margin:8px 0;}
+  ul,ol{margin:8px 0;padding-left:22px;}
+  li{margin:4px 0;}
+  code{background:var(--accent-soft);padding:1px 6px;border-radius:4px;font-size:13px;color:var(--accent-deep);font-family:"SF Mono",Consolas,monospace;}
+  .muted{color:var(--muted);}
+
+  /* banner */
+  .banner{
+    background:var(--accent-soft);border:1px solid #cdd8ec;border-left:5px solid var(--accent-deep);
+    border-radius:10px;padding:18px 22px;margin-bottom:22px;
+  }
+  .banner h2{margin:0 0 6px;font-size:17px;color:var(--accent-deep);}
+  .banner p{margin:6px 0;color:var(--ink);}
+
+  /* 封面（滿版橫幅） */
+  .cover{border:1px solid #e5e0ee;border-radius:16px;overflow:hidden;margin-bottom:18px;
+    background:linear-gradient(135deg,#fffdee 0%,#ece6f4 100%);}
+  .cover .cover-img img{display:block;width:100%;height:215px;object-fit:cover;object-position:center 30%;}
+  .cover.noimg .cover-img{display:none;}
+  .cover .cover-text{padding:18px 26px 20px;text-align:center;}
+  .cover-kicker{margin:0;font-size:13px;letter-spacing:4px;color:var(--taupe);font-weight:600;}
+  .cover-title{margin:6px 0;font-size:30px;line-height:1.2;color:var(--ink);letter-spacing:1px;}
+  .cover-sub{margin:0;font-size:14.5px;color:var(--muted);}
+  /* 溫暖版每月提醒 */
+  .reminder{background:var(--hl);border:1px solid var(--hl-line);border-left:5px solid var(--accent);
+    border-radius:14px;padding:18px 24px;margin-bottom:22px;}
+  .reminder h2{margin:0 0 8px;font-size:17px;color:var(--accent-deep);letter-spacing:1px;}
+  .reminder p{margin:8px 0;color:#4a4633;line-height:1.95;font-size:14.5px;}
+  @media(max-width:700px){
+    .cover .cover-img img{height:150px;}
+    .cover-title{font-size:25px;}
+  }
+
+  /* 首頁卡片總覽 + 分頁切換 */
+  .home-intro{color:var(--muted);font-size:14px;margin:2px 0 16px;}
+  .home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:16px;}
+  .home-card{display:flex;gap:14px;align-items:flex-start;text-align:left;cursor:pointer;
+    border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--panel);
+    transition:.15s;font-family:inherit;}
+  .home-card:hover{border-color:var(--accent);box-shadow:0 8px 20px rgba(9,92,168,.10);transform:translateY(-2px);}
+  .home-card .hc-badge{flex:0 0 auto;width:36px;height:36px;border-radius:11px;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;
+    background:var(--accent);color:#fff;}
+  .home-card .hc-body{min-width:0;}
+  .home-card .hc-tag{display:inline-block;font-size:11px;font-weight:600;color:var(--accent-deep);
+    background:var(--accent-soft);padding:2px 10px;border-radius:20px;}
+  .home-card h3{border:none;margin:9px 0 5px;padding:0;font-size:16.5px;color:var(--ink);}
+  .home-card p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.6;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .nav-home{font-weight:600;color:#fff !important;}
+  .home-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);
+    background:#fff;border-radius:8px;padding:9px 14px;font-size:14px;cursor:pointer;color:var(--ink);}
+  .home-btn:hover{background:var(--accent-soft);border-color:var(--accent);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:none;}}
+  section.anim,.home-view.anim{animation:fadeUp .26s ease;}
+
+  /* 密碼鎖 */
+  .lock{border:1px solid var(--line);border-radius:10px;background:#fbfcfd;overflow:hidden;margin:10px 0;}
+  .lock-head{padding:12px 16px;font-weight:600;font-size:14.5px;background:#f4f7f8;display:flex;align-items:center;gap:8px;}
+  .lock-head .lk{font-size:12px;color:var(--accent-deep);font-weight:500;}
+  .lock-form{display:flex;gap:8px;align-items:center;padding:14px 16px;flex-wrap:wrap;}
+  .lock-form input{padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;width:160px;}
+  .lock-form input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+  .lock-form button,.lock-relock{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;padding:8px 16px;font-size:13.5px;cursor:pointer;}
+  .lock-form button:hover,.lock-relock:hover{background:var(--accent-deep);}
+  .lock-relock{margin-top:10px;background:#fff;color:var(--accent-deep);}
+  .lock-relock:hover{background:var(--accent-soft);color:var(--accent-deep);}
+  .pw-err{color:#b23030;font-size:13px;}
+  .lock-content{padding:8px 18px 16px;display:none;}
+  .lock.open .lock-form{display:none;}
+  .lock.open .lock-content{display:block;}
+
+  /* cards grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin:14px 0;}
+  .card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fbfcfd;}
+  .card h4{margin:0 0 6px;}
+  .card ul{padding-left:18px;margin:6px 0;}
+  .card li{overflow-wrap:break-word;}
+  /* 各日特殊任務：兩欄寬版，避免句子被切斷 */
+  .daylist{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0;}
+  .daylist .card{background:#fbfcfd;}
+  @media(max-width:700px){.daylist{grid-template-columns:1fr;}}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top;}
+  th{background:var(--accent-soft);color:var(--accent-deep);font-weight:600;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  /* 數量清單（一項一行、數量靠右） */
+  .qty-list{list-style:none;padding:0;margin:12px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .qty-list li{display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:11px 16px;border-bottom:1px solid var(--line);background:#fff;}
+  .qty-list li:last-child{border-bottom:none;}
+  .qty-list li:nth-child(even){background:#fafbfc;}
+  .qty-list li span{color:var(--ink);}
+  .qty-list li b{color:var(--accent-deep);font-size:15px;flex:0 0 auto;min-width:42px;text-align:right;}
+  .pill{display:inline-block;background:var(--accent-soft);color:var(--accent-deep);
+    border:1px solid #dbe4f3;border-radius:999px;padding:5px 13px;font-size:13px;margin:0;line-height:1.5;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;}
+  .chips.taupe .pill{background:var(--taupe-soft);color:var(--lav-deep);border-color:#e2d9ef;}
+
+  /* details */
+  details{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:#fbfcfd;overflow:hidden;}
+  details summary{
+    cursor:pointer;padding:12px 16px;font-weight:600;font-size:14.5px;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;background:#f4f7f8;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary::after{content:"展開";font-size:12px;color:var(--accent-deep);font-weight:500;}
+  details[open] summary::after{content:"收合";}
+  details .body{padding:10px 18px 16px;line-height:1.85;}
+  details .body li{margin:7px 0;}
+  details .body ol{padding-left:20px;}
+  details .body ol li{margin:9px 0;}
+  /* 收合項目的 key-value 列 */
+  .kv{margin:7px 0;}
+  .kv b{display:inline-block;min-width:84px;color:var(--accent-deep);}
+
+  .callout{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:8px;padding:10px 14px;margin:10px 0;font-size:13.5px;color:var(--ink);}
+  .danger{background:var(--taupe-soft);border:1px solid #e0d7ef;border-left:4px solid var(--lav-deep);border-radius:8px;padding:10px 14px;margin:10px 0;color:var(--ink);font-size:13.5px;}
+  .note{font-size:12.5px;color:var(--muted);}
+  a.link{color:var(--accent-deep);}
+  .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;}
+  .hidden{display:none !important;}
+  .noresult{padding:20px;text-align:center;color:var(--muted);}
+
+  /* calendar */
+  .cal-head{display:flex;align-items:center;gap:10px;margin:6px 0 12px;flex-wrap:wrap;}
+  .cal-head button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;cursor:pointer;font-size:14px;color:var(--ink);}
+  .cal-head button:hover{background:var(--accent-soft);border-color:var(--accent);}
+  .cal-head #calTitle{font-size:17px;font-weight:600;min-width:130px;text-align:center;}
+  .cal-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:10px;}
+  .cal-legend .lg{display:inline-flex;align-items:center;gap:5px;}
+  .cal-legend .dot{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  .dot-task{background:var(--accent-soft);border:1px solid var(--accent);}
+  .dot-count{background:var(--lav);border:1px solid var(--taupe);}
+  .dot-today{background:var(--hl);border:1px solid var(--hl-line);}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+  .cal-grid .wd{text-align:center;font-size:12px;color:var(--muted);font-weight:600;padding:4px 0;}
+  .cal-cell{min-height:78px;border:1px solid var(--line);border-radius:8px;padding:5px 6px;background:#fff;cursor:pointer;transition:.12s;overflow:hidden;}
+  .cal-cell:hover{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft);}
+  .cal-cell.empty{background:transparent;border:none;cursor:default;box-shadow:none;}
+  .cal-cell.weekend{background:#f7f9fa;cursor:default;}
+  .cal-cell.weekend:hover{border-color:var(--line);box-shadow:none;}
+  .cal-cell.today{background:var(--hl);border-color:var(--accent);}
+  .cal-cell.today .dnum{color:var(--accent-deep);}
+  .cal-cell .dnum{font-size:13px;font-weight:600;color:var(--ink);}
+  .cal-cell .ct{display:inline-block;font-size:10.5px;background:var(--accent-soft);color:var(--accent-deep);border-radius:4px;padding:0 4px;margin-top:3px;}
+  .cal-cell .cc{display:block;font-size:10.5px;background:var(--taupe-soft);color:var(--lav-deep);border-radius:4px;padding:1px 4px;margin-top:3px;line-height:1.3;}
+  .cal-cell.selected{outline:2px solid var(--accent);outline-offset:0;}
+  .cal-detail{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:14px 18px;background:#fbfcfd;font-size:13.5px;}
+  .cal-detail h4{margin:0 0 8px;}
+  .cal-detail .blk{margin:10px 0;}
+  .cal-detail .blk b{color:var(--accent-deep);}
+  /* 手機：表格轉為卡片 */
+  @media(max-width:760px){
+    .rtable tr{display:block;border:1px solid var(--line);border-radius:10px;background:#fff;margin-bottom:12px;padding:4px 14px;}
+    .rtable tr:nth-child(even) td{background:transparent;}
+    .rtable tr.rt-head{display:none;}
+    .rtable td{display:flex;gap:12px;align-items:baseline;border:none;border-bottom:1px dashed var(--line);padding:9px 0;}
+    .rtable td:last-child{border-bottom:none;}
+    .rtable td::before{content:attr(data-label);flex:0 0 92px;color:var(--accent-deep);font-weight:600;font-size:12px;}
+    .rtable td[data-label=""]::before{display:none;}
+  }
+  @media(max-width:860px){
+    .cal-cell{min-height:62px;}
+    .cal-cell .ct,.cal-cell .cc{font-size:9.5px;}
+    .sidebar{position:fixed;left:-260px;z-index:50;transition:left .2s;box-shadow:2px 0 12px rgba(0,0,0,.2);}
+    .sidebar.open{left:0;}
+    .main{padding:18px 16px 60px;}
+    .menu-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;font-size:14px;cursor:pointer;}
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:40;}
+    .overlay.show{display:block;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <h1>ORB 交班手冊</h1>
+    <p class="sub">產房麻醉工作室 · 副 Leader 工作交接</p>
+    <nav class="nav" id="nav">
+      <a href="#home" class="nav-home">首頁總覽</a>
+      <div class="group">每日 / 每週 / 每月</div>
+      <a href="#daily">每日工作</a>
+      <a href="#weekly">每週 Checklist</a>
+      <a href="#monthly">每月工作</a>
+      <div class="group">計價與藥物</div>
+      <a href="#billing">產房麻醉計價</a>
+      <a href="#painless">減痛分娩</a>
+      <a href="#drugs">藥物管理</a>
+      <a href="#supply">公藥 / 衛材 / 點滴</a>
+      <div class="group">管理工作</div>
+      <a href="#schedule">排班</a>
+      <a href="#inventory">盤點</a>
+      <a href="#sterilize">送消流程</a>
+      <a href="#vendor">廠商 / 儀器</a>
+      <div class="group">臨床注意</div>
+      <a href="#orbrules">ORB 麻醉注意事項</a>
+      <a href="#specialty">專科注意</a>
+      <a href="#infection">感染管制</a>
+      <div class="group">其他</div>
+      <a href="#admin">行政雜項</a>
+      <a href="#contacts">帳密與電話</a>
+      <a href="#links">常用連結</a>
+    </nav>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="cover" id="cover">
+      <div class="cover-img">
+        <img src="封面.png" alt="ORB 封面插圖"
+          onerror="if(!this.dataset.f){this.dataset.f=1;this.src='封面.jpg';}else{document.getElementById('cover').classList.add('noimg');}">
+      </div>
+      <div class="cover-text">
+        <p class="cover-kicker">產房麻醉工作室</p>
+        <h1 class="cover-title">ORB 交班手冊</h1>
+        <p class="cover-sub">給接班夥伴的工作指引，慢慢看、不用急，有需要隨時翻。</p>
+      </div>
+    </header>
+
+    <div class="topbar">
+      <button class="menu-btn" id="menuBtn">目錄</button>
+      <button class="home-btn" id="homeBtn">首頁</button>
+      <input type="text" class="search" id="search" placeholder="搜尋關鍵字（例如：計價、減痛、盤點、Fentanyl）...">
+    </div>
+
+    <div id="home" class="home-view">
+      <p class="home-intro">點選下方任一張卡片，或左側選單，開啟該主題；左上「首頁」可隨時回到這裡。</p>
+      <div class="home-grid" id="homeGrid"></div>
+    </div>
+
+    <!-- DAILY -->
+    <section id="daily">
+      <h2>每日工作 <span class="tag">白班 / 兩頭</span></h2>
+      <p class="lead">白班負責現場運作與設備點班，兩頭負責藥物核對與歸還。</p>
+
+      <h3>白班工作人員</h3>
+      <div class="grid">
+        <div class="card">
+          <h4>麻機開機測試</h4>
+          <ul>
+            <li>週一確認機器功能後，開啟呼吸器試打半天，下班前關機並 prepare auto on。</li>
+            <li>遇連假關機時，直接 shutdown。</li>
+            <li>記得上網填寫每日麻機檢核（機號：61、65）。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>點班順序</h4>
+          <p>櫃號 <code>6 → 20 → 21 → 4 → 2</code></p>
+        </div>
+        <div class="card">
+          <h4>ABG / 血糖機測試</h4>
+          <ul>
+            <li>ABG 藥水分 1、2、3；藥水 1 通常可自行更換，藥水 2、3 放冰箱、由廠商更換。</li>
+            <li>點選藥水畫面會顯示需更換日期。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>急救車點班</h4>
+          <ul>
+            <li>白班覆核前一天點班；兩頭負責中午及下午點班。</li>
+            <li>開啟急救車須點班並更換鎖，無鎖向補給室領取。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>PCA 機器回收點班</h4>
+          <ul>
+            <li>回收機器目前放在 ORB 住院醫師休息室，拿回辦公室擦拭歸位。</li>
+            <li>目前 8 台（1 台維修中），確認數量後填 PCA 點班單。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>產房探視（減痛分娩）</h4>
+          <ul>
+            <li>填寫「PCA 設備管理系統」表單。</li>
+            <li>白板：藍色＝待產、粉紅＝安胎。</li>
+            <li>重點：機器號碼、病患姓名、產程進展、疼痛指數、機器數據與管路固定、FHB。</li>
+          </ul>
+        </div>
+      </div>
+
+      <details>
+        <summary>點班登記本明細（自費 / 高價 / 衛材 / 吸入藥 / 藥包）</summary>
+        <div class="body">
+          <h4>自費 / 高價藥物登記本</h4>
+          <p><span class="pill">Bridion x10</span><span class="pill">Droperidol x3</span><span class="pill">Acetamol x2</span><span class="pill">One day pain x5</span><span class="pill">Voluven x10</span><span class="pill">Gelofusine x10</span></p>
+          <h4>自費衛材登記本</h4>
+          <p><span class="pill">溫毯(上) x30</span><span class="pill">溫毯(下) x20</span><span class="pill">溫毯(床墊) x4</span><span class="pill">溫毯(ERAS) x2</span><span class="pill">BIS x10（備兩盒）</span><span class="pill">PSI x10（備兩盒）</span><span class="pill">ANI x5</span><span class="pill">Nasal high flow x2</span></p>
+          <p class="note">PSI 機器放置位置：R31、33、35、37。</p>
+          <h4>吸入性麻醉藥登記本</h4>
+          <p><span class="pill">Sevoflurane x12（一箱 9 瓶）</span><span class="pill">Desflurane x24（一箱 6 瓶）</span></p>
+          <h4>藥局藥物包登記本</h4>
+          <p><span class="pill">Nalbuphine x1</span><span class="pill">KCL x5</span><span class="pill">Precedex x5</span><span class="pill">Dynastat x5</span></p>
+          <p class="note">另有：Painless 藥包登記本、PCA 機器點班表。</p>
+        </div>
+      </details>
+
+      <div class="callout">
+        其他每日項目：簡易呼吸器每日點班確認；週一/週三溫毯廠商來，前一日通知領取數量（上半身約 30、下半身約 20、ERAS 2、床墊 4，櫃子放得下即可）；視情況領包布（約一週 10 包），腰麻包/治療巾包未回時打給補給室阿娥（分機 2864）。
+      </div>
+
+      <h3>兩頭工作人員</h3>
+      <details>
+        <summary>藥車作業流程</summary>
+        <div class="body">
+          <ol>
+            <li>評估藥盤內無異常藥物/異物，檢視 Tray 盤單與藥量是否正確，收回白單及空瓶，確認空瓶數量與白單一致。</li>
+            <li>白單依房間順序釘成一份，另用白紙記錄各房間空瓶數量，進入「藥品庫儲管理系統」核對。</li>
+            <li>確認藍單與白單數量，在每份藥物本右上角寫上數量。</li>
+            <li>由系統進入 AN1 → 選日期下載 → 篩選 AN1 → 逐一輸入藥碼（<code>FRE01、FF050、BP370、AM620、FM010</code>）→ 正負抵消上灰、確認數量塗色塊 → 依顏色排序統計。有問題直接除錯。</li>
+            <li>確認後丟棄三級以下管制藥品空瓶，由勤務推回 ORA 藥局（通常排在 ORC 藥車之後）。</li>
+          </ol>
+          <div class="callout">記帳未過帳：可能是假日交接時輸帳超過凌晨 12 點，告知藥師會隔日入帳；有問題打資訊室婉容（分機 1928）。排程造成藥物錯誤先除錯，仍無法改善聯絡庫儲系統何先生（2177）。</div>
+        </div>
+      </details>
+      <details>
+        <summary>ADC（電子藥櫃）作業流程</summary>
+        <div class="body">
+          <ul>
+            <li><strong>確認藥物是否正確歸還：</strong>登入 → 調劑條碼補印 → 確認是否有「當日之前」名單。若有，表示歸藥流程有異。</li>
+            <li>歸藥不確實 → 補印條碼，重新執行歸藥。</li>
+            <li>沒有歸還 → 從「AUTO IX 電子藥櫃操作系統」查藥物動態，確認是否使用；未使用則尋找，通常在冰包前方袋子裡。</li>
+            <li><strong>收藥：</strong>白單依日期訂成一份 → 登入按「庫存回收」→ 輸入藥碼（<code>BP370、AM620、AK150、THI04</code>）→ 逐一清點空瓶並核對 → 收藥（無論是否使用都收到大粉紅回收藥盒）。流程：選藥物 → 確認數量 → 回收。</li>
+            <li><strong>列印班表：</strong>先改橫向 → 檢視 → 分頁預覽調整大小 → 列印。</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- WEEKLY -->
+    <section id="weekly">
+      <h2>每週 Checklist <span class="tag">週一～週五</span></h2>
+      <p class="lead">每日常規每天都要做；下方為各日特殊事項。</p>
+
+      <h3>每日常規（每天都要做）</h3>
+      <div class="chips">
+        <span class="pill">冰箱溫濕度（上午及下午）</span>
+        <span class="pill">用電安全 / 常備藥物 / 高壓氣體氧氣查核表</span>
+        <span class="pill">藥物校正</span>
+        <span class="pill">查帳</span>
+        <span class="pill">確認訂便當</span>
+        <span class="pill">溫毯</span>
+        <span class="pill">包布</span>
+      </div>
+
+      <h3>每月行事曆</h3>
+      <p class="lead">月曆顯示每個工作天的特殊任務；每日常規（上方）每天都要做。盤點等每月固定任務會自動標在正確日期，點選日期可看當日完整工作內容。</p>
+      <div class="cal-head">
+        <button id="calPrev" aria-label="上個月">‹</button>
+        <span id="calTitle"></span>
+        <button id="calNext" aria-label="下個月">›</button>
+        <button id="calToday">今天</button>
+      </div>
+      <div class="cal-legend">
+        <span class="lg"><span class="dot dot-task"></span>特殊任務</span>
+        <span class="lg"><span class="dot dot-count"></span>盤點 / 每月固定</span>
+        <span class="lg"><span class="dot dot-today"></span>今天</span>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-detail" id="dayDetail">點選上方任一日期，查看當天的每日常規與特殊任務。</div>
+
+      <details>
+        <summary>以文字檢視各日特殊任務</summary>
+        <div class="body">
+        <div class="daylist">
+        <div class="card">
+          <h4>週一</h4>
+          <ul>
+            <li>OPA 泡消</li>
+            <li>10AM 前完成點滴申請（N/S x4、L/R x6）</li>
+            <li>呼吸機空打至中午</li>
+            <li>查看衛材申領單</li>
+            <li>預班表：房間安排及加班序號</li>
+            <li>請刀房書記領外出服各 15 件</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>週二</h4>
+          <ul>
+            <li>預約班表、衛材請領單回 ORA</li>
+            <li>10AM 前完成公藥申領，確認 2PM 派工</li>
+            <li>衛材回到工作室</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>週三</h4>
+          <ul>
+            <li>每月第四個週三：庫房盤點</li>
+            <li>將大班表的班填到預班表，公告可開始預班</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>週四</h4>
+          <ul>
+            <li>10AM 前申領點滴（N/S x1、L/R x2）</li>
+            <li>儀器保養</li>
+            <li>每月第三個週四：公藥盤點</li>
+            <li>兩週一次安排房間及加班序號、P 班</li>
+            <li>180 公分呼吸管（怡辰）</li>
+            <li>衛材回辦公室</li>
+            <li>確認列印下週便當菜單、取出下週名牌</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>週五</h4>
+          <ul>
+            <li>7AM 準時貼上補休單</li>
+            <li>SA 車補充</li>
+            <li>檢查 ABG 藥水用量</li>
+            <li>確認氧氣桶剩餘量、請領並消耗</li>
+            <li>確認更換集水瓶</li>
+          </ul>
+        </div>
+      </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- MONTHLY -->
+    <section id="monthly">
+      <h2>每月工作 <span class="tag">分工 / 統計</span></h2>
+      <table>
+        <tr><th>項目</th><th>負責 / 對象</th></tr>
+        <tr><td>績效統計（含工作人員錯誤紀錄）</td><td>嘉純護理長</td></tr>
+        <tr><td>用電安全查核表</td><td>秀琴姐</td></tr>
+        <tr><td>每月藥物及溫毯、BIS 使用量統計</td><td>秀花姐</td></tr>
+        <tr><td>每科刀況統計</td><td>涵薰醫師</td></tr>
+        <tr><td>每月 Fiber 消毒確認</td><td>懷璧姐</td></tr>
+      </table>
+      <div class="reminder" data-keep="1" style="margin-top:14px;margin-bottom:0;">
+        <h2>每月必做提醒</h2>
+        <p>工作人員若有錯誤，請當下記錄；每月月初彙整後寄給阿長（嘉純護理長）。</p>
+        <p>遇到有併發症的案例，當週下午三點與麻姐、住院醫師、主治醫師及主任做簡短討論與檢討。</p>
+      </div>
+
+      <details>
+        <summary>每月高價藥物 / 衛材統計 — 操作流程</summary>
+        <div class="body">
+          <p><strong>資料來源：</strong>藥品庫儲管理系統處方消耗明細、秀花姐特衛查詢系統、秀花姐 E-mail、鈺鍊姐減痛統計（由秀花姐轉寄）。</p>
+          <ol>
+            <li>「藥品庫儲管理系統」→ 處方明細查詢 → 輸入 (1) 日期 (2) 過帳別：全部 (3) 部門代碼：AN1 產房麻醉 (4) 藥碼 → 查詢確認數量 → 填報表。</li>
+            <li>「HISS system」用德哥帳號登入 → 手術管理系統 → 查詢作業 → 麻醉科衛材藥品使用統計 → 查詢消耗區間 / 單一品項代碼 → 填報表。</li>
+            <li>BIS、PSI 在計價系統為同一代碼，需查自費項目登記本手動計算。</li>
+            <li>計算「ORB 房間」使用總量。</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <!-- BILLING -->
+    <section id="billing">
+      <h2>產房麻醉計價 <span class="tag">很常出錯</span></h2>
+      <p class="lead">所有 ORB 麻醉：消耗地點＝產房麻醉；成本分攤＝婦幼麻醉（PCA 類除外，見下）。</p>
+
+      <h3>一、健保麻醉基本原則</h3>
+      <p>麻醉時間 <code>&lt; 2hr → S</code>；<code>≥ 2hr → L</code></p>
+
+      <h3>二、婦產相關手術計價</h3>
+      <p class="lead">點選各刀種展開計價細節。</p>
+
+      <details>
+        <summary>取卵（Ovum Pick-up）</summary>
+        <div class="body">
+          <p class="kv"><b>入口／性質</b>急診麻醉 / 急診</p>
+          <p class="kv"><b>麻醉方式</b>IV / GM</p>
+          <p class="kv"><b>計價</b>≤1hr → PR-3；&gt;1hr → PR-S</p>
+        </div>
+      </details>
+      <details>
+        <summary>植入（Embryo Transfer）</summary>
+        <div class="body">
+          <p class="kv"><b>入口／性質</b>門診麻醉 / 常規</p>
+          <p class="kv"><b>麻醉方式</b>IV / GM</p>
+          <p class="kv"><b>計價</b>一律 PR（未過健保卡則依婦科 Schedule）</p>
+        </div>
+      </details>
+      <details>
+        <summary>自費 C/S</summary>
+        <div class="body">
+          <p class="kv"><b>入口／性質</b>住院麻醉 / 常規</p>
+          <p class="kv"><b>麻醉方式</b>SA / GE</p>
+          <p class="kv"><b>計價</b>依實際方式（S/L），<strong>不可計 PR</strong></p>
+        </div>
+      </details>
+      <details>
+        <summary>C/S + T/L</summary>
+        <div class="body">
+          <p class="kv"><b>入口／性質</b>住院麻醉 / 常規</p>
+          <p class="kv"><b>麻醉方式</b>SA / GE</p>
+          <p class="kv"><b>計價</b>C/S 健保（S/L）；T/L 自費計 PR-3，以手術結束前 15 分鐘劃分，時間須與 OR 一致</p>
+        </div>
+      </details>
+      <details>
+        <summary>C/S + Morphine（含 Kytron）</summary>
+        <div class="body">
+          <p class="kv"><b>入口／性質</b>住院無手術麻醉</p>
+          <p class="kv"><b>麻醉方式</b>SA</p>
+          <p class="kv"><b>計價</b>計 PR-6，只輸時間不帶藥；Morphine + Kytron 須同列健保 SA 帳單</p>
+        </div>
+      </details>
+      <details>
+        <summary>僅 T/L</summary>
+        <div class="body">
+          <p class="kv"><b>入口／性質</b>住院麻醉 / 常規</p>
+          <p class="kv"><b>麻醉方式</b>GE</p>
+          <p class="kv"><b>計價</b>≤1hr → PR-3；1–2hr → PR-S；≥2hr → PR-T</p>
+        </div>
+      </details>
+      <details>
+        <summary>BS + PS（乳外 + 整外）</summary>
+        <div class="body">
+          <p class="kv"><b>入口／性質</b>住院麻醉 / 常規</p>
+          <p class="kv"><b>麻醉方式</b>GE</p>
+          <p class="kv"><b>計價</b>BS 從乳外 GE Schedule（S/L）；PS 從整外 PR Schedule，一律 PR-T</p>
+        </div>
+      </details>
+
+      <h3>三、Painless Labor（無痛分娩）／ 術後 PCA</h3>
+      <table>
+        <tr><th>項目</th><th>條件</th><th>計價</th><th>成本分攤</th></tr>
+        <tr><td>Painless Syringe Pump</td><td>—</td><td>PR-S</td><td>婦幼麻醉</td></tr>
+        <tr><td>Painless PCA（白班）</td><td>08:00–22:00</td><td>PR-E</td><td>疼痛科</td></tr>
+        <tr><td>Painless PCA（夜班）</td><td>22:00–08:00，執行＆施打醫師均為 VS</td><td>PR-F</td><td>疼痛科</td></tr>
+        <tr><td>IV-PCA</td><td>住院無手術</td><td>PR-I</td><td>疼痛科</td></tr>
+        <tr><td>EA-PCA</td><td>住院無手術</td><td>PR-E</td><td>疼痛科</td></tr>
+      </table>
+      <div class="callout">計價輸入位置：ORB 全區 → 31、32…；ORA 全區 → FII、FIII。</div>
+
+      <h3>四、最常出錯的規則</h3>
+      <ol>
+        <li>婦產部（婦癌刀除外）皆屬 DRG，結束時間以<strong>開刀房時間</strong>為準。</li>
+        <li>非婦產部刀種，結束時間以<strong>麻醉時間</strong>為準。</li>
+        <li>婦產部中繼時間會抓「麻單紅線」結束時間，進 HIS 計價務必再確認。</li>
+        <li>管制藥領取與房間綁定，務必輸入正確房間：OR（31、32）、待產室（L1、L2、檢1）。</li>
+        <li>乳房外科一律從 Breast Ca Schedule，<strong>不可</strong>從 Self-Pay Schedule；中繼常自帶錯誤，請人工確認。</li>
+        <li>兒童牙科（自費）Schedule 會 on CP，記得區分 S / L。</li>
+        <li>OPD 常自帶錯誤時間，請確認輸帳日為當天。</li>
+      </ol>
+
+      <div class="danger">病患已離院後補計價會產生額外費用 → 告知藥師，藥物會隨隔天回。<br>更改房間：德哥帳號 → 手術管理系統 → 查詢作業 → 輸入索引號 → 右上「變更扣庫房間」。</div>
+    </section>
+
+    <!-- PAINLESS -->
+    <section id="painless">
+      <h2>減痛分娩 <span class="tag">建檔 / 機器 / 計價</span></h2>
+      <p class="lead">完整流程另見線上連結（見「常用連結」）。以下為建檔、機器設定與計價重點。</p>
+
+      <div class="callout"><strong>新藥包（115/6/24 16:00 起）：</strong>0.1% Ropivacaine + Fentanyl 1.5 mcg/ml + NS，共 500 ml。計價、系統藥劑選擇與機器設定皆已更新，詳見下方。</div>
+
+      <details>
+        <summary>電腦資料建檔流程</summary>
+        <div class="body">
+          <ul>
+            <li><strong>麻醉資料建檔：</strong>「PCA 設備管理系統」→ 麻醉待產 → 麻醉資料建檔 → 從孕婦名單進入建檔。需輸入：待產房號、手術內容（painless labor）、疾病與藥物病史、配置日期、配給量（藥包總量）、完成機器設定劑量。</li>
+            <li><strong>藥劑選擇（新）：</strong>麻醉資料建檔 → 藥劑選擇 → 選「<code>ROP(0.1%)合併FEN(1.5ug/ml)及NS共500ml</code>」。</li>
+            <li><strong>新增 painless 紀錄（白單）：</strong>麻醉待產 → 訪視紀錄（白單）→ 點選孕婦白單 → 新增白單 → 填寫後存檔。</li>
+            <li><strong>掛機：</strong>右下角掛機欄位 → 填地點 ORB（改版後無此欄）→ 選 PCA 機器號碼 → 勾選掛機。</li>
+            <li><strong>無 schedule 建檔：</strong>麻醉待產 → 麻醉資料建檔 → 選「＋無麻建檔」→ 輸入病例號。</li>
+          </ul>
+          <p class="note">書面登記：Tray 盤 2%Xylocaine 登記單、施打 painless 登記本、領取 painless 藥包登記本、藥包上、機器外。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>機器設定劑量與步驟</summary>
+        <div class="body">
+          <p style="margin:4px 0 2px;"><strong>參考劑量（新藥包 PAINLESS 預設程式）</strong></p>
+          <div class="chips taupe">
+            <span class="pill">VTBI 560ml</span>
+            <span class="pill">Continuous Rate 0</span>
+            <span class="pill">Intermittent Dose 8ml</span>
+            <span class="pill">Dose Interval 01:00（每 60 分）</span>
+            <span class="pill">Demand Dose 5ml</span>
+            <span class="pill">Dose Lockout 00:10（10 分）</span>
+            <span class="pill">Total Dose / 1hr 30ml</span>
+          </div>
+          <p class="note">以機器內建「PAINLESS」預設程式為準；若要調整務必設定最小劑量，否則之後無法修改。</p>
+          <ol>
+            <li>開機 → 選「New Infusion」→「Preset Programs」（如要求密碼：<code>7770</code>）</li>
+            <li>於程式清單選擇「<strong>PAINLESS</strong>」</li>
+            <li>確認第一頁：VTBI <strong>560 ml</strong>、Intermittent Dose <strong>8 ml</strong>、Dose Interval <strong>01:00</strong>（每 60 分）、Continuous Rate <strong>0</strong> → Next</li>
+            <li>確認第二頁：Demand Dose <strong>5 ml</strong>、Dose Lockout <strong>00:10</strong>（10 分）、Total Dose／1hr <strong>30 ml</strong></li>
+            <li>左下出現 Prime → 按下開始 Prime → 確認管路無空氣 → 右下「Finish Prime」</li>
+            <li>按「Set Delay」，待接上病患再開啟</li>
+          </ol>
+        </div>
+      </details>
+
+      <div class="grid">
+        <div class="card">
+          <h4>計價（住院無手術麻醉計價系統）</h4>
+          <ul>
+            <li>白班 08:00–22:00 → <strong>PR-E</strong></li>
+            <li>夜間 22:00–08:00 → <strong>PR-F</strong>（執行及指導醫師輸入主責／當日值班主治醫師）</li>
+            <li>消耗地點：產房麻醉 / 成本分攤：疼痛科</li>
+            <li>系統藥劑選擇：<code>ROP(0.1%)合併FEN(1.5ug/ml)及NS共500ml</code></li>
+            <li>Syringe 或 Bolus（非 PCA）：PR-S</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>主任（賴 V）IV-PCA Order</h4>
+          <ul>
+            <li>Formula II, Fentanyl</li>
+            <li>Loading 2ml、Continuous 0、Bolus 2ml</li>
+            <li>Lockout 8min、4hr limit 30ml</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>PCA 特別申撥</h4>
+          <ul>
+            <li>時機：鈺鍊姐放長假時領 PCA 藥包。</li>
+            <li>新藥包：ROP 0.1% + FEN 1.5 mcg/ml + NS 500ml（舊申撥碼 FP040 已隨藥包更新，申撥前向中央藥局確認新碼）。</li>
+            <li>列印「麻醉部病人自控式減痛醫囑」→ 打中央藥局（第一醫療 B2）藥師莉雯 4633 → Leader 自行領取。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- DRUGS -->
+    <section id="drugs">
+      <h2>藥物管理 <span class="tag">簡碼 / 效期 / 配法</span></h2>
+
+      <h3>升壓劑 / 血管活性藥配法（含 Set 種類）</h3>
+      <p class="lead">點選各藥物展開配法與建議劑量。</p>
+
+      <details>
+        <summary>Dopamine　·　LA set</summary>
+        <div class="body">
+          <p class="kv"><b>配法</b>400mg + D5W 至 250ml</p>
+          <p class="kv"><b>amp 數</b>2 安瓿</p>
+          <p class="kv"><b>濃度</b>1600 mcg/ml</p>
+          <p class="kv"><b>建議劑量</b>2–10 mcg/kg/min</p>
+        </div>
+      </details>
+      <details>
+        <summary>Angidil (NTG)　·　NTG set</summary>
+        <div class="body">
+          <p class="kv"><b>配法</b>50mg + D5W 至 250ml（玻璃瓶）</p>
+          <p class="kv"><b>amp 數</b>5 安瓿</p>
+          <p class="kv"><b>濃度</b>200 mcg/ml</p>
+          <p class="kv"><b>建議劑量</b>0.2–2 mcg/kg/min</p>
+        </div>
+      </details>
+      <details>
+        <summary>Primacor (Milrinone)　·　LV set</summary>
+        <div class="body">
+          <p class="kv"><b>配法</b>30mg + D5W 至 150ml</p>
+          <p class="kv"><b>amp 數</b>3 安瓿</p>
+          <p class="kv"><b>濃度</b>200 mcg/ml</p>
+          <p class="kv"><b>建議劑量</b>0.375–0.75 mcg/kg/min</p>
+        </div>
+      </details>
+      <details>
+        <summary>Dobutrex (Dobutamine)　·　LA set</summary>
+        <div class="body">
+          <p class="kv"><b>配法</b>500mg + D5W 至 250ml</p>
+          <p class="kv"><b>amp 數</b>2 安瓿</p>
+          <p class="kv"><b>濃度</b>2000 mcg/ml</p>
+          <p class="kv"><b>建議劑量</b>2–20 mcg/kg/min</p>
+        </div>
+      </details>
+      <details>
+        <summary>Levophed (Norepinephrine)　·　LA set</summary>
+        <div class="body">
+          <p class="kv"><b>配法</b>16mg + D5W 至 250ml</p>
+          <p class="kv"><b>amp 數</b>4 安瓿</p>
+          <p class="kv"><b>濃度</b>64 mcg/ml</p>
+          <p class="kv"><b>建議劑量</b>0.01–0.1 mcg/kg/min</p>
+        </div>
+      </details>
+      <details>
+        <summary>Epinephrine　·　LA set</summary>
+        <div class="body">
+          <p class="kv"><b>配法</b>16mg + D5W 至 250ml</p>
+          <p class="kv"><b>amp 數</b>1 安瓿</p>
+          <p class="kv"><b>濃度</b>64 mcg/ml</p>
+          <p class="kv"><b>建議劑量</b>0.01–0.1 mcg/kg/min</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>麻醉藥品開封後有效期限</summary>
+        <div class="body">
+          <table>
+            <tr><th>藥品 / 劑型</th><th>常溫儲存</th><th>冷藏儲存</th></tr>
+            <tr><td>Insulin Actrapid HM Vial</td><td>&lt; 30℃</td><td>42 Days</td></tr>
+            <tr><td>Ketamine Vial</td><td>避光、&lt; 25℃</td><td>14 Days</td></tr>
+            <tr><td>Ketamine Syringe</td><td>1–2mg/ml：1 Day</td><td>—</td></tr>
+            <tr><td>Heparin Vial / Syringe</td><td>Vial 28 Days / Syringe 1 Day</td><td>—</td></tr>
+            <tr><td>2% Lidocaine Vial / Syringe</td><td>Vial 3 Days / Syringe 1 Day</td><td>—</td></tr>
+            <tr><td>10% Lidocaine Spray Vial</td><td>3 Months（查無引據）</td><td>—</td></tr>
+            <tr><td>0.5% Marcaine / 1% Ropivacaine Vial</td><td colspan="2">不含防腐劑，使用完畢即棄置</td></tr>
+            <tr><td>Solu-Cortef Syringe</td><td>1mg/ml：1 Day；2–60mg/ml：4 hrs</td><td>—</td></tr>
+            <tr><td>Solu-Medrol Vial / Syringe</td><td>Vial 2 Days / Syringe 3 hrs</td><td>Vial 2 Days / Syringe 1 Day</td></tr>
+            <tr><td>2% Propofol Vial / 稀釋</td><td>Vial 12 hrs / 稀釋 6 hrs</td><td>—</td></tr>
+            <tr><td>1% Propofol Syringe / 稀釋</td><td>Syringe 12 hrs / 稀釋 6 hrs</td><td>—</td></tr>
+            <tr><td>Esmolol 稀釋</td><td>1 Day</td><td>1 Day</td></tr>
+            <tr><td>Anectine Vial / 稀釋 / Syringe</td><td>Vial &lt;25℃；Syringe 常溫 1 Day</td><td>稀釋 &lt;10℃</td></tr>
+            <tr><td>Trandate / Nicardipine Syringe</td><td>常溫 1 Day</td><td>—</td></tr>
+            <tr><td>Levophed Vial / Syringe</td><td>Vial &lt;25℃ 避光；Syringe 常溫 1 Day</td><td>—</td></tr>
+            <tr><td>Bosmin Syringe</td><td>儘速使用</td><td>—</td></tr>
+            <tr><td>Acetamol Vial</td><td>調配後 30 mins</td><td>30 mins</td></tr>
+            <tr><td>Dynastat Vial</td><td>1 Day</td><td>—</td></tr>
+            <tr><td>Sugammadex Vial</td><td>未避光：5 Days</td><td>冷藏 5–8℃：1 Day</td></tr>
+            <tr><td>Precedex Vial</td><td>1 Day（查無引據）</td><td>—</td></tr>
+            <tr><td>Chlorhexidine Bottle</td><td>開瓶 1 Month；直接使用 1 Week</td><td>—</td></tr>
+            <tr><td>Nitrostat</td><td colspan="2">確實使用與儲存，與效期時間相當</td></tr>
+          </table>
+        </div>
+      </details>
+
+      <details>
+        <summary>藥物簡碼表</summary>
+        <div class="body">
+          <table>
+            <tr><th>簡碼</th><th>藥物</th><th>簡碼</th><th>藥物</th></tr>
+            <tr><td>AG390</td><td>Gelofusine</td><td>FF050</td><td>Fentanyl</td></tr>
+            <tr><td>AK150</td><td>Ketalar</td><td>FM010</td><td>Morphine</td></tr>
+            <tr><td>AM620</td><td>Dormicum</td><td>FRE01</td><td>1% Propofol</td></tr>
+            <tr><td>AX040</td><td>2% Xylocaine 20ml</td><td>THI04</td><td>Citosol</td></tr>
+            <tr><td>BA610</td><td>Acetamol</td><td>VOM01</td><td>Vomstop</td></tr>
+            <tr><td>BP330</td><td>Dynastat</td><td>REM02</td><td>Remifentanil</td></tr>
+            <tr><td>BP370</td><td>2% Fresofol</td><td>JYE01</td><td>Alcohol</td></tr>
+            <tr><td>BT490</td><td>Voluven</td><td>BS290</td><td>Smoflipid</td></tr>
+          </table>
+          <h4>特衛簡碼</h4>
+          <table>
+            <tr><th>簡碼</th><th>名稱</th></tr>
+            <tr><td>55107090</td><td>溫毯</td></tr>
+            <tr><td>55101333</td><td>TOF</td></tr>
+            <tr><td>55101401</td><td>BIS</td></tr>
+            <tr><td>55105167</td><td>One day pain</td></tr>
+            <tr><td>55101335</td><td>Naldebain</td></tr>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- SUPPLY -->
+    <section id="supply">
+      <h2>公藥 / 衛材 / 點滴申領 <span class="tag">供應中心 / 派工</span></h2>
+
+      <h3>點滴</h3>
+      <p>週一、週四常規領取（週一 N/S x4、L/R x6；週四 N/S x1、L/R x2，10:30 前領）。緊急叫貨：藥物領取系統輸入數量 → 藥學部庫房（急診大樓 B2，分機 4613）→ 列印單交護理站勤務領取。</p>
+
+      <details>
+        <summary>公藥申領單（常用品項）</summary>
+        <div class="body">
+          <ul class="qty-list">
+            <li><span>N/S 20ml</span><b>120</b></li>
+            <li><span>50ml Xylocaine spray</span><b>6</b></li>
+            <li><span>Anectine</span><b>10</b></li>
+            <li><span>Easy antiseptic</span><b>12</b></li>
+            <li><span>Sevoflurane</span><b>12</b></li>
+            <li><span>Desflurane</span><b>24</b></li>
+            <li><span>Acetamol</span><b>20</b></li>
+            <li><span>Bridion</span><b>20</b></li>
+            <li><span>Voluven</span><b>20</b></li>
+            <li><span>Gelofusine</span><b>30</b></li>
+            <li><span>Dynastat</span><b>20</b></li>
+            <li><span>酒精 75%</span><b>2</b></li>
+            <li><span>乾洗手</span><b>2</b></li>
+            <li><span>RI</span><b>1</b></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>供應中心領取規則</summary>
+        <div class="body">
+          <ul>
+            <li>領物前打供應中心（分機 6022）通知並說出單號。</li>
+            <li>領取項目：耳溫套、血糖品管液、急救車安全鎖、OPA 試片、ADC 感熱貼紙。</li>
+            <li>115/05/05 起縫合包改「換領」（時間 8:00–15:30），電腦輸入後派工領取；數量不足可 KEY「借用」憑單領取。</li>
+            <li>腰麻包、消毒包：由「供應中心管理」系統輸入數量，勤務推回包布大網車（申領後隔日下午約 16:00）。</li>
+            <li>料號：麻醉包 <code>G28100100011</code>、治療巾包 <code>G28402010411</code>、麻醉縫合包 <code>DST000013148</code>。</li>
+            <li>Guide wire：系統領取後請秀娟姐調撥（單位 CSR），大人 3 個、小孩 2 個（小孩為單位購買，向怡辰姐申請）。</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>派工流程（氧氣 / 衛材 / 公藥）</summary>
+        <div class="body">
+          <p>員工入口網 → 行政 → 行政管理系統 → 登入 → 傳送工作需求 → 填資料 → 06 衛材、氧氣桶（灌氧氣）、小推車 → 出發：第二醫療大樓三樓產房麻醉 → 到達：氧氣間 → 勾「二醫勤務」→ 確定傳送。</p>
+          <ul>
+            <li>縫合包：到達 → 第一醫療 B2 補給室庫房</li>
+            <li>週二 11AM 領衛材：到達 → 第一醫療 B2 補給室</li>
+            <li>週二 2PM 領公藥：到達 → 中央藥局</li>
+          </ul>
+          <p class="note">衛材庫（地下 2 樓）2801；分機 2857 陳先生。</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="schedule">
+      <h2>排班 <span class="tag">一次排兩週</span></h2>
+      <h3>排班流程</h3>
+      <ol>
+        <li>週二通知大家記得預班。</li>
+        <li>週三收回預班表，護理長排班。</li>
+        <li>週四班表回到 ORB，排房間及序號，填好後 PO 在 ORB 群組。</li>
+        <li>週五早上 7 點準時放黑板上，同時查看填寫 PM 的秩序。</li>
+      </ol>
+      <h3>特殊注意事項</h3>
+      <ul>
+        <li>R37、40 達文西房間有時有小兒達文西，需資深、會小兒外的麻醉護理師。可由「手術醫囑情單查詢作業（正式）」查兩週內是否有小兒外科達文西手術。</li>
+        <li>R32 週四小兒外科是一整天，記得平均分配。</li>
+        <li>R31 兒牙是週一、二、四。</li>
+        <li>R32 該房人員盡量排回該房；眼科或取卵全天無刀時，該房人員會被調派 ORA 支援。</li>
+      </ul>
+      <details>
+        <summary>排班步驟細節</summary>
+        <div class="body">
+          <ul>
+            <li>左上藍色＝房間；右上紅色＝加班序號（學姐資料夾有 excel，已排定一年）。</li>
+            <li>連續支援者盡量排同一房間。</li>
+            <li>取白紙填房號（直）及日期（橫）→ 非白班者打叉 → 將沒房間人員填入 → 填加班序號 → 再次檢視分配是否均勻。</li>
+            <li>目前有學員，學姐一人可 cover 兩間。</li>
+            <li>額外表單：Leader 排班本、小兒外科天數表、預 PM 表單（有 excel 算式，已列印至七月）。</li>
+            <li>列印月班表跑版時，從分頁預覽調整。</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- INVENTORY -->
+    <section id="inventory">
+      <h2>盤點 <span class="tag">藥物 / 庫房</span></h2>
+
+      <h3>藥物盤點 — 每月第三個週四 15:20（雙月加盤急救盒）</h3>
+      <div class="callout">淑芬藥師 4645；藥學部庫房（急診大樓 B2）4613。</div>
+      <ul>
+        <li>盤點前 1–2 天藥師會給「護理站暨科室急救車、常備藥物及醫用氣體清點核藥記錄表」並通知下載 excel。</li>
+        <li>先消耗所有可消耗藥物（小量氧氣桶、洗手液、消毒液、Xylocaine 噴劑做庫存量確認）。</li>
+        <li>流程：員工入口網 → 行政管理系統 → 藥品庫儲管理系統 → 選「AN 婦幼麻醉科」→ 盤點 → 盤點表列印 → 清點數量/日期符合 → 盤點量輸入 → 選正確單位 AN → 盤點覆核。</li>
+        <li>效期 4 個月內貼提醒標籤，2 個月內主動告知管理人以科室公藥申領新品。</li>
+        <li>數量為負不用擔心，會從藥師端消耗（如 one day pain、Bridion，現場量對即可）。</li>
+        <li>藥物即將到期：告知藥師後到庫備系統「繳回 → 申領」。</li>
+        <li>逾期藥品：庫存回收下方有逾期藥品回收鍵。</li>
+      </ul>
+
+      <h3>庫房盤點 — 每月第四個週三</h3>
+      <div class="callout">補給室分機 2841；補給室町元 2852。庫房盤點後一天是全院盲盤。</div>
+      <ul>
+        <li>目標：「即時庫量查詢」數量與盤點量不可相差 10%；盤點數目與目前存量相比<strong>只能少不能多</strong>（多的收起來，盤點後再拿出）。</li>
+        <li>流程：倉儲作業 → 盤點表列印（選「定期盤點」下載 excel）→ 二庫作業 → 即時存量查詢 → 實際盤點 → 將多餘衛材收起、不足者出庫消耗使其相符 → 盤點表輸入 → 盤點完成。</li>
+        <li>提醒房間人員盤點期間勿拿庫房衛材，如取用須確實登記。</li>
+      </ul>
+      <p class="note"><a class="link" href="https://docs.google.com/spreadsheets/u/0/d/1lLpLBHY-bdnrOWD6HWMpt3BZ5mqIS9teBqa62T4lBh8/htmlview" target="_blank" rel="noopener">台中榮總二級庫房每月定期盤點完成確認表</a></p>
+    </section>
+
+    <!-- STERILIZE -->
+    <section id="sterilize">
+      <h2>送消流程 <span class="tag">先分流再操作</span></h2>
+      <div class="danger">電漿與高壓鍋流程<strong>不可混用</strong>：電漿不可包兩層包布；高壓鍋不可未包布直接送消。第一步一定要先確認消毒方式，可避免大部分錯誤。</div>
+      <div class="grid">
+        <div class="card">
+          <h4>電漿送消（Plasma）</h4>
+          <ol>
+            <li>器械清洗、烘乾</li>
+            <li>放置於開刀房工作間桌上</li>
+            <li>填寫「電漿」送消貼紙</li>
+            <li>登記送消、點交</li>
+            <li>領回器械</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h4>高壓鍋送消（Steam）</h4>
+          <ol>
+            <li>器械清洗、烘乾</li>
+            <li>包妥兩層包布（重點）</li>
+            <li>填寫「高壓鍋」送消貼紙</li>
+            <li>登記送消、點交</li>
+            <li>領回器械</li>
+          </ol>
+        </div>
+      </div>
+      <table>
+        <tr><th>項目</th><th>電漿</th><th>高壓鍋</th></tr>
+        <tr><td>材質限制</td><td>高</td><td>較低</td></tr>
+        <tr><td>包裝</td><td>不同</td><td>需兩層包布</td></tr>
+        <tr><td>擺放位置</td><td>工作間桌上</td><td>打包後送消</td></tr>
+        <tr><td>失誤後果</td><td>物品損壞</td><td>滅菌失敗</td></tr>
+      </table>
+    </section>
+
+    <!-- VENDOR -->
+    <section id="vendor">
+      <h2>廠商 / 儀器 <span class="tag">通行條 / 保養</span></h2>
+      <h3>廠商管理</h3>
+      <ul>
+        <li>辦公室不需通行條；新廠商送件時，廠商才能寫通行條。</li>
+        <li>廠商 LINE：PSI 廷岳、DES 雅雯-露比、溫毯 Mako、ABG 張帛豪。</li>
+        <li><strong>115/5/18 起新規範（麻機、Gas 機廠商）：</strong>至醫工部申請通行條 + 在職證明（開立日期須為 115/5/18 後維修當日），持醫工部通行條、個人證件、在職證明正本及影本至手術室護理站申請通行證，並填寫「廠商人員進入醫療作業區—健康自我評估」。</li>
+        <li><strong>急件：</strong>到 ORB 護理站登記寫通行條，護理站更換衣服（粉紅帽）後維修，當天內補通行條。</li>
+        <li><strong>常規：</strong>拿手術室通行條到護理站收回，廠商穿隔離衣、髮帽及鞋套。</li>
+      </ul>
+      <h3>儀器保養 / 請修</h3>
+      <ul>
+        <li>保養：員工入口網 → 儀器管理系統 → 輸入保養。</li>
+        <li>請修：儀器管理系統 → 請修申請 → 選設備項目、報修原因、送修資訊。</li>
+      </ul>
+    </section>
+
+    <!-- ORB RULES -->
+    <section id="orbrules">
+      <h2>ORB 麻醉注意事項 <span class="tag">臨床原則</span></h2>
+      <div class="grid">
+        <div class="card">
+          <h4>ERAS 與用藥</h4>
+          <ul>
+            <li>B 組醫師皆不參與 ERAS；接到 ERAS 個案：自費項目皆可用，其餘依 B 組 routine。</li>
+            <li>One Day Pain、Byfavo：施、張、蘇三位常駐醫師除非外科主動要求，否則不使用。</li>
+            <li>止吐藥、Remifentanil：須先與主治醫師確認。</li>
+            <li>務必告知病人：未使用自費項目＝不會收費。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>呼吸器設定</h4>
+          <ul>
+            <li>手術中：TV 10 mL/kg；PEEP 可有可無，超過 5 mmHg 需通知主治。</li>
+            <li>催醒期：TV 至少 10 mL/kg、RR 10–14；不可調低 TV、禁用 PS mode。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Reverse</h4>
+          <ul>
+            <li>僅限快拔管前給予。</li>
+            <li>嚴禁手術尚未結束即給 Reverse。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>輸液原則</h4>
+          <ul>
+            <li>成人：不需特別限水。</li>
+            <li>小孩：含糖輸液 4 mL/kg/hr；L/R 6–10 mL/kg/hr；2 歲以上比照成人。</li>
+            <li>天冷時點滴務必使用溫箱中的溫熱點滴，每個 S-line 全天候使用。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>升壓藥</h4>
+          <ul>
+            <li>Levophed、Trandate 須經主治醫師同意後才能給予。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>最終原則</h4>
+          <ul>
+            <li>若無法遵守以上任一原則，務必通知主治醫師。</li>
+            <li>出現併發症案例，當週下午三點做簡短討論與檢討。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPECIALTY -->
+    <section id="specialty">
+      <h2>專科注意 <span class="tag">小兒外科 / ENT</span></h2>
+      <h3>小兒外科</h3>
+      <ul>
+        <li>產房僅一位主治時，請 32 室住院醫師先幫外圍簡易刀上麻；兩位主治時以 32 室小兒外科為主。</li>
+        <li>排程一律 on GM，但是否插管（GE）請再與外科及麻醉醫師確認；有疑問直接問周主任及黃主治。</li>
+        <li>GM 接可計價 LMA 一支，11:00 前自行打包送高壓鍋消毒：清洗拭乾 → 雙層布 + 高壓消毒指示紙 → 貼高壓指示貼紙（標日期、房間、內容物名稱及數量）→ 放消毒間籃子、填登記本 → 由消毒間送供應中心，交班並追蹤送消進度。</li>
+      </ul>
+      <h3>耳鼻喉科 DISE（睡眠內視鏡）</h3>
+      <ul>
+        <li>計價：通常兩個排程，自費 DISE（PR3，計價碼 <code>55105154</code>，ENT 睡眠內視鏡，2250 元）之後接 GE 手術排程。</li>
+        <li>確實依流程執行 BIS 與 TOF 監測，注意麻醉深度與病人反應。</li>
+        <li><strong>施主任叮嚀：</strong>Dormicum 與 Emerson 務必分開放置，避免光線暗時因外觀相似拿錯藥。</li>
+      </ul>
+      <details>
+        <summary>DISE 鎮靜流程（勁傑醫師提供）</summary>
+        <div class="body">
+          <p>連接 BIS 和 TOF 監測，準備 Propofol TCI 與 Dormicum。</p>
+          <ol>
+            <li>Dormicum bolus</li>
+            <li>BIS ≤ 70 時，手動啟動 TOF 乙次</li>
+            <li>啟動 Propofol TCI，達 Ce2 後 10 秒，手動啟動 TOF 乙次</li>
+            <li>開始內視鏡檢查</li>
+            <li>降低 Ce 濃度後 10 秒，手動啟動 TOF 乙次</li>
+            <li>若無躁動，再次內視鏡檢查</li>
+          </ol>
+        </div>
+      </details>
+    </section>
+
+    <!-- INFECTION -->
+    <section id="infection">
+      <h2>感染管制 <span class="tag">PPE / 針扎</span></h2>
+      <h3>防護措施</h3>
+      <table>
+        <tr><th>類型</th><th>防護用具</th></tr>
+        <tr><td>標準防護</td><td>依暴露情形採取防護用具</td></tr>
+        <tr><td>飛沫防護</td><td>隔離衣、手套、外科口罩(或 N95)、面罩(或護目鏡)；病人配戴外科口罩</td></tr>
+        <tr><td>接觸防護</td><td>隔離衣、手套、口罩、面罩(或護目鏡)</td></tr>
+        <tr><td>空氣防護</td><td>防護衣、手套、N95、面罩(或護目鏡)、負壓手術室；病人配戴外科口罩</td></tr>
+      </table>
+      <p class="note">PPE 放置地點：麻醉工作室，有需要可自行取用。</p>
+      <h3>針扎 / 血液體液暴觸處理流程</h3>
+      <ol>
+        <li>醫師開立「針扎抽血套餐」。</li>
+        <li>全球資訊網 → 院內專區 → 中榮通報系統 → 填「針扎或血液體液暴觸事件通報」→ 送出 → 列印單張。</li>
+        <li>就診（健保卡 + 單張，不需掛號）：上午感染科、下午家醫科、假日及夜間急診。</li>
+        <li>契約人員加填「職業災害通報系統」→ 送出 → 列印 + 班表 → 主管簽章 → 送感管中心。</li>
+      </ol>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="admin">
+      <h2>行政雜項 <span class="tag">抽單 / 便當</span></h2>
+      <details>
+        <summary>誤送人事差勤單如何抽單</summary>
+        <div class="body">
+          <ol>
+            <li>登入系統 → 首頁 → 左側「待辦事項」→「表單」→「表單追蹤」。</li>
+            <li>設定日期區間（送出/送達日期）→ 點「我啟動」→ 確認表單仍在流程中。</li>
+            <li>找到該筆 → 點右側「抽單」小白方框。</li>
+            <li>回首頁 →「單筆處理」→ 找到該筆 → 系統自動勾「作廢」→ 送出。</li>
+          </ol>
+          <p class="note">只能抽尚未完成的表單；已核准完成則無法抽單，須走人工。抽單後務必確認「作廢」已勾再送出。</p>
+        </div>
+      </details>
+      <details>
+        <summary>便當訂購</summary>
+        <div class="body">
+          <p>目前由秀娟姐協助訂便當。</p>
+          <ul>
+            <li><strong>醫師：</strong>員工入口網右下「醫師誤餐餐盒暨員工自費餐盒訂購系統」→ 誤餐券類型「開刀房 B」→ 填日期、餐別 → 左上「新增資料」→ 部門「麻醉部」→ 勾選醫師 → 選菜色 → 右下「確定訂購」。</li>
+            <li><strong>護理人員：</strong>空白貼紙（寫麻醉部與姓名）+ 識別證，10:00 前放開刀房護理站便當塑膠袋，會自行取回識別證。</li>
+            <li>施姐多訂素食便當（外圍也要幫忙訂），先看白板醫師（主治、住院）。</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- CONTACTS -->
+    <section id="contacts">
+      <h2>帳密與電話 <span class="tag">敏感資訊</span></h2>
+      <div class="danger">本區含帳號密碼，請妥善保管，勿外流或上傳至公開位置。</div>
+      <h3>常用電話 / 分機</h3>
+      <table>
+        <tr><th>單位 / 對象</th><th>分機</th><th>單位 / 對象</th><th>分機</th></tr>
+        <tr><td>秀實</td><td>8036</td><td>控台</td><td>8037</td></tr>
+        <tr><td>產房</td><td>8136 / 8137</td><td>打包室</td><td>2864</td></tr>
+        <tr><td>供應中心</td><td>6024 / 6022</td><td>補給室（阿娥）</td><td>2864</td></tr>
+        <tr><td>補給室</td><td>2841 / 2852</td><td>衛材庫（B2）</td><td>2801</td></tr>
+        <tr><td>藥學部庫房（B2）</td><td>4613</td><td>淑芬藥師</td><td>4645</td></tr>
+        <tr><td>中央藥局（莉雯）</td><td>4633</td><td>資訊室（婉容）</td><td>1928</td></tr>
+        <tr><td>庫儲系統（何先生）</td><td>2177</td><td>衛材庫（陳先生）</td><td>2857</td></tr>
+        <tr><td>張學文（婦產總醫師）</td><td>#6 5710</td><td>小夜手機</td><td>#6 1873</td></tr>
+      </table>
+      <div class="lock" id="pwLock">
+        <div class="lock-head">系統帳號密碼　<span class="lk">需輸入密碼檢視</span></div>
+        <div class="lock-form">
+          <input type="password" id="pwInput" placeholder="請輸入密碼" autocomplete="off" inputmode="numeric">
+          <button id="pwGo" type="button">解鎖</button>
+          <span class="pw-err" id="pwErr"></span>
+        </div>
+        <div class="lock-content">
+          <ul>
+            <li>辦公室門鎖密碼：8038</li>
+            <li>花姐：HHYang591121（App13579）</li>
+            <li>德哥：8492（Ca0928075632）；ca515629 / Ca0928075632</li>
+            <li>德哥雲端：cha51565156@gmail.com（密碼問德哥）</li>
+            <li>QA Gmail：VGHTC0000@gmail.com（M0000VGHTC）</li>
+            <li>雲端白板：overnight4108 / gooD4108</li>
+            <li>anes18091809 / 1809anes</li>
+            <li>orb4168@gmail.com（4168orborb）</li>
+            <li>領藥錄影：HTTP://172.22.203.33/admin-login，帳號 4490 / 密碼 APPLE12345（記錄報表 → 事件統計報表）</li>
+            <li>機器設定密碼：7770（New infusion / Add PCEA）</li>
+          </ul>
+          <button id="pwHide" type="button" class="lock-relock">重新上鎖</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- LINKS -->
+    <section id="links">
+      <h2>常用連結 <span class="tag">線上表單 / 流程</span></h2>
+      <ul>
+        <li><a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSehVUCAmJxkChkW7W8TuvIXu4V0HhTk1MyZzBbobYbzizEbLQ/viewform" target="_blank" rel="noopener">溫度濕度回報表單</a></li>
+        <li><a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSc6x9swdJJGCAMPC2oIF_fo68qZeLlAggafxCVS9k6T9c5HFQ/viewform" target="_blank" rel="noopener">ORB 每日加班人次回報（小夜）</a></li>
+        <li><a class="link" href="https://anespropofolanes-cyber.github.io/painless/epidural_flow_public.html" target="_blank" rel="noopener">減痛分娩完整流程</a></li>
+        <li><a class="link" href="https://polite-speculoos-d39915.netlify.app/" target="_blank" rel="noopener">ORB 工作清單</a></li>
+        <li><a class="link" href="https://docs.google.com/spreadsheets/u/0/d/1lLpLBHY-bdnrOWD6HWMpt3BZ5mqIS9teBqa62T4lBh8/htmlview" target="_blank" rel="noopener">二級庫房每月盤點完成確認表</a></li>
+      </ul>
+    </section>
+
+    <p class="noresult hidden" id="noresult">找不到符合「<span id="kw"></span>」的內容。</p>
+    <p class="footer">ORB 麻醉工作室交班手冊 · 供接班同事查閱 · 內容以實際現場與系統為準</p>
+  </main>
+</div>
+
+<script>
+  // mobile menu
+  const sidebar=document.getElementById('sidebar');
+  const overlay=document.getElementById('overlay');
+  document.getElementById('menuBtn').addEventListener('click',()=>{sidebar.classList.add('open');overlay.classList.add('show');});
+  overlay.addEventListener('click',()=>{sidebar.classList.remove('open');overlay.classList.remove('show');});
+  document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>{sidebar.classList.remove('open');overlay.classList.remove('show');}));
+
+  function closeDrawer(){sidebar.classList.remove('open');overlay.classList.remove('show');}
+
+  // ===== 卡片分頁切換 =====
+  const coverEl=document.getElementById('cover');
+  const homeEl=document.getElementById('home');
+  const homeGrid=document.getElementById('homeGrid');
+  const pages=[...document.querySelectorAll('main section')];
+  const navLinks=[...document.querySelectorAll('#nav a')];
+
+  // 依各區塊自動產生首頁卡片
+  pages.forEach((sec,i)=>{
+    const h2=sec.querySelector('h2');
+    const title=h2?(h2.childNodes[0].textContent||'').trim():sec.id;
+    const tagEl=h2?h2.querySelector('.tag'):null;
+    const tag=tagEl?tagEl.textContent.trim():'';
+    const leadEl=sec.querySelector('.lead');
+    const desc=leadEl?leadEl.textContent.trim():'';
+    const card=document.createElement('button');
+    card.className='home-card';
+    card.innerHTML='<span class="hc-badge">'+(i+1)+'</span>'+
+      '<span class="hc-body">'+
+      (tag?'<span class="hc-tag">'+tag+'</span>':'')+
+      '<h3>'+title+'</h3>'+(desc?'<p>'+desc+'</p>':'')+
+      '</span>';
+    card.addEventListener('click',()=>showSection(sec.id));
+    homeGrid.appendChild(card);
+  });
+
+  function setActiveNav(id){navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));}
+  function showHome(){
+    coverEl.style.display='';homeEl.style.display='';
+    pages.forEach(s=>s.style.display='none');
+    homeEl.classList.remove('anim');void homeEl.offsetWidth;homeEl.classList.add('anim');
+    setActiveNav('home');window.scrollTo(0,0);closeDrawer();
+  }
+  function showSection(id){
+    coverEl.style.display='none';homeEl.style.display='none';
+    pages.forEach(s=>s.style.display=(s.id===id)?'':'none');
+    const sec=document.getElementById(id);
+    if(sec){sec.classList.remove('anim');void sec.offsetWidth;sec.classList.add('anim');}
+    setActiveNav(id);window.scrollTo(0,0);closeDrawer();
+  }
+  navLinks.forEach(a=>a.addEventListener('click',e=>{
+    e.preventDefault();const href=a.getAttribute('href');
+    if(href==='#home')showHome();else showSection(href.slice(1));
+  }));
+  document.getElementById('homeBtn').addEventListener('click',showHome);
+  const sideTitle=document.querySelector('.sidebar h1');
+  sideTitle.style.cursor='pointer';sideTitle.addEventListener('click',showHome);
+  showHome();
+
+  // 搜尋：切到首頁並過濾卡片（顯示含關鍵字的主題）
+  const search=document.getElementById('search');
+  const noresult=document.getElementById('noresult');
+  search.addEventListener('input',()=>{
+    const q=search.value.trim().toLowerCase();
+    const cards=[...homeGrid.children];
+    if(q===''){noresult.classList.add('hidden');cards.forEach(c=>c.style.display='');return;}
+    if(getComputedStyle(homeEl).display==='none')showHome();
+    let vis=0;
+    pages.forEach((sec,i)=>{
+      const m=sec.textContent.toLowerCase().includes(q);
+      cards[i].style.display=m?'':'none';
+      if(m)vis++;
+    });
+    document.getElementById('kw').textContent=search.value;
+    noresult.classList.toggle('hidden',vis>0);
+  });
+
+  /* ===== 月曆 ===== */
+  const WD=['日','一','二','三','四','五','六'];
+  const dailyRoutine=['冰箱溫濕度（上午及下午）','用電安全／常備藥物／高壓氣體氧氣查核表','藥物校正','查帳','確認訂便當','溫毯','包布'];
+  const special={
+    1:['OPA 泡消','10AM 前完成點滴申請（N/S x4、L/R x6）','呼吸機空打至中午','查看衛材申領單','預班表：房間安排及加班序號','請刀房書記領外出服各 15 件'],
+    2:['預約班表、衛材請領單回 ORA','10AM 前完成公藥申領，確認 2PM 派工','衛材回到工作室'],
+    3:['將大班表的班填到預班表，公告可開始預班'],
+    4:['10AM 前申領點滴（N/S x1、L/R x2）','儀器保養','兩週一次安排房間及加班序號、P 班','180 公分呼吸管（怡辰）','衛材回辦公室','確認列印下週便當菜單、取出下週名牌'],
+    5:['7AM 準時貼上補休單','SA 車補充','檢查 ABG 藥水用量','確認氧氣桶剩餘量、請領並消耗','確認更換集水瓶']
+  };
+  // 計算某月第 n 個星期 w（w: 0=日…6=六）的日期
+  function nthWeekday(y,m,w,n){let c=0;for(let d=1;d<=31;d++){const dt=new Date(y,m,d);if(dt.getMonth()!==m)break;if(dt.getDay()===w){c++;if(c===n)return d;}}return null;}
+  // 回傳某日的每月固定任務陣列
+  function monthlyTasks(y,m,d){
+    const out=[];
+    if(d===nthWeekday(y,m,4,3)){ // 第三個週四
+      const evenMonth=(m+1)%2===0;
+      out.push('藥物盤點 15:20'+(evenMonth?'（雙月加盤急救盒）':''));
+      out.push('公藥盤點');
+    }
+    if(d===nthWeekday(y,m,3,4)) out.push('庫房盤點'); // 第四個週三
+    return out;
+  }
+  let calY,calM,selKey=null;
+  const calGrid=document.getElementById('calGrid');
+  const calTitle=document.getElementById('calTitle');
+  const dayDetail=document.getElementById('dayDetail');
+
+  function renderCal(y,m){
+    calY=y;calM=m;
+    calTitle.textContent=y+' 年 '+(m+1)+' 月';
+    calGrid.innerHTML='';
+    WD.forEach(w=>{const e=document.createElement('div');e.className='wd';e.textContent='週'+w;calGrid.appendChild(e);});
+    const first=new Date(y,m,1).getDay();
+    const days=new Date(y,m+1,0).getDate();
+    const today=new Date();const isCurMonth=(today.getFullYear()===y&&today.getMonth()===m);
+    for(let i=0;i<first;i++){const e=document.createElement('div');e.className='cal-cell empty';calGrid.appendChild(e);}
+    for(let d=1;d<=days;d++){
+      const dt=new Date(y,m,d);const wd=dt.getDay();
+      const cell=document.createElement('div');
+      cell.className='cal-cell';
+      const weekend=(wd===0||wd===6);
+      if(weekend)cell.classList.add('weekend');
+      if(isCurMonth&&today.getDate()===d)cell.classList.add('today');
+      let html='<span class="dnum">'+d+'</span>';
+      const sp=special[wd];
+      const mt=monthlyTasks(y,m,d);
+      if(sp&&!weekend)html+='<span class="ct">特殊任務 '+sp.length+'</span>';
+      mt.forEach(t=>html+='<span class="cc">'+t+'</span>');
+      cell.innerHTML=html;
+      if(!weekend||mt.length){
+        cell.addEventListener('click',()=>{showDay(y,m,d);document.querySelectorAll('.cal-cell.selected').forEach(c=>c.classList.remove('selected'));cell.classList.add('selected');});
+      }else{cell.style.cursor='default';}
+      calGrid.appendChild(cell);
+    }
+  }
+  function showDay(y,m,d){
+    const wd=new Date(y,m,d).getDay();
+    const sp=special[wd];const mt=monthlyTasks(y,m,d);
+    let h='<h4>'+(m+1)+' 月 '+d+' 日（週'+WD[wd]+'）</h4>';
+    if(wd===0||wd===6){
+      h+='<p class="muted">週末。</p>';
+      if(mt.length)h+='<div class="blk"><b>每月固定：</b><ul><li>'+mt.join('</li><li>')+'</li></ul></div>';
+      dayDetail.innerHTML=h;return;
+    }
+    if(mt.length)h+='<div class="blk"><b>每月固定任務：</b><ul><li>'+mt.join('</li><li>')+'</li></ul></div>';
+    h+='<div class="blk"><b>當日特殊任務：</b><ul><li>'+(sp?sp.join('</li><li>'):'—')+'</li></ul></div>';
+    h+='<div class="blk"><b>每日常規（每天都要做）：</b><ul><li>'+dailyRoutine.join('</li><li>')+'</li></ul></div>';
+    dayDetail.innerHTML=h;
+  }
+  document.getElementById('calPrev').addEventListener('click',()=>{let m=calM-1,y=calY;if(m<0){m=11;y--;}renderCal(y,m);});
+  document.getElementById('calNext').addEventListener('click',()=>{let m=calM+1,y=calY;if(m>11){m=0;y++;}renderCal(y,m);});
+  document.getElementById('calToday').addEventListener('click',()=>{const t=new Date();renderCal(t.getFullYear(),t.getMonth());});
+  (function(){const t=new Date();renderCal(t.getFullYear(),t.getMonth());})();
+
+  /* 系統帳號密碼：密碼鎖（4168） */
+  (function(){
+    const lock=document.getElementById('pwLock');if(!lock)return;
+    const input=document.getElementById('pwInput');
+    const go=document.getElementById('pwGo');
+    const err=document.getElementById('pwErr');
+    const hide=document.getElementById('pwHide');
+    function tryUnlock(){
+      if(input.value==='4168'){lock.classList.add('open');err.textContent='';}
+      else{err.textContent='密碼錯誤，請再試一次';input.value='';input.focus();}
+    }
+    go.addEventListener('click',tryUnlock);
+    input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();tryUnlock();}});
+    if(hide)hide.addEventListener('click',()=>{lock.classList.remove('open');input.value='';});
+  })();
+
+  /* 手機：把表格自動轉成卡片（讀表頭 → 為每格加標籤） */
+  document.querySelectorAll('.main table').forEach(tb=>{
+    const rows=tb.rows;if(!rows.length)return;
+    const head=[...rows[0].cells];
+    if(!head.every(c=>c.tagName==='TH'))return;
+    tb.classList.add('rtable');
+    rows[0].classList.add('rt-head');
+    const labels=head.map(c=>c.textContent.trim());
+    for(let i=1;i<rows.length;i++){
+      [...rows[i].cells].forEach((cell,idx)=>{
+        cell.dataset.label=(cell.colSpan>1)?'':(labels[idx]||'');
+      });
+    }
+  });
+</script>
+</body>
+</html>
