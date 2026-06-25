@@ -223,6 +223,8 @@
   .cal-cell.empty{background:transparent;border:none;cursor:default;box-shadow:none;}
   .cal-cell.weekend{background:#f7f9fa;cursor:default;}
   .cal-cell.weekend:hover{border-color:var(--line);box-shadow:none;}
+  .cal-cell.has-task{background:var(--accent-soft);border-color:#cfe0f5;}
+  .cal-cell.has-count{background:var(--lav);border-color:#bcaed8;}
   .cal-cell.today{background:var(--hl);border-color:var(--accent);}
   .cal-cell.today .dnum{color:var(--accent-deep);}
   .cal-cell .dnum{font-size:13px;font-weight:600;color:var(--ink);}
@@ -260,12 +262,7 @@
     .cal-grid .wd{font-size:11px;}
     .cal-cell{min-height:46px;padding:5px 2px 6px;text-align:center;}
     .cal-cell .dnum{font-size:12.5px;}
-    .cal-cell .ct,.cal-cell .cc{
-      display:inline-block;width:7px;height:7px;border-radius:50%;
-      font-size:0;line-height:0;padding:0;margin:5px 2px 0;color:transparent;
-      overflow:hidden;border:none;vertical-align:middle;}
-    .cal-cell .ct{background:var(--accent);}
-    .cal-cell .cc{background:var(--lav-deep);}
+    .cal-cell .ct,.cal-cell .cc{display:none;}
     .cal-detail{font-size:14px;}
   }
 </style>
@@ -1317,6 +1314,8 @@
       let html='<span class="dnum">'+d+'</span>';
       const sp=special[wd];
       const mt=monthlyTasks(y,m,d);
+      if(sp&&!weekend)cell.classList.add('has-task');
+      if(mt.length)cell.classList.add('has-count');
       if(sp&&!weekend)html+='<span class="ct">特殊任務 '+sp.length+'</span>';
       mt.forEach(t=>html+='<span class="cc">'+t+'</span>');
       cell.innerHTML=html;
